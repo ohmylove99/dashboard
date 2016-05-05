@@ -1,0 +1,71 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+apply plugin: 'checkstyle'
+apply plugin: 'codenarc'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'jdepend'
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.enabled true
+        html.stylesheet resources.text.fromFile('../config/xsl/checkstyle-custom.xsl')
+    }
+}
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+        html.stylesheet resources.text.fromFile('../config/xsl/findbugs-custom.xsl')
+    }
+}
+
+repositories {
+    maven { url "http://repo1.maven.apache.org/maven2" }
+}
+
+dependencies {
+	compile 'mysql:mysql-connector-java:5.1.9'
+	compile 'org.apache.commons:commons-lang3:3.4'
+	compile 'commons-beanutils:commons-beanutils:1.9.2'
+	compile 'commons-io:commons-io:2.5'
+	compile 'com.google.guava:guava:18.0'
+	compile 'commons-codec:commons-codec:1.10'
+	compile 'org.springframework:spring-webmvc:4.2.5.RELEASE'
+	compile 'org.slf4j:slf4j-api:1.7.12'
+	compile 'javax.validation:validation-api:1.1.0.Final'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.4.0'
+	compile 'com.fasterxml.jackson.core:jackson-core:2.4.0'
+	compile 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.4.0'
+	compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.4.0'
+	compile 'net.sf.dozer:dozer:5.5.1'
+	compile 'javax.persistence:persistence-api:1.0.2'
+	compile 'org.springframework.data:spring-data-jpa:1.6.0.RELEASE'
+	compile 'org.hibernate:hibernate-core:4.3.5.Final'
+	compile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.0.1'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:1.6.1'
+    testCompile 'org.hibernate:hibernate-validator:5.0.3.Final'
+    testCompile 'org.springframework:spring-test:4.2.5.RELEASE'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+    test {
+        java {
+            srcDir 'test/main/java'
+        }
+        resources {
+            srcDir 'test/main/resources'
+        }
+    }
+}
