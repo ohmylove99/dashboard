@@ -1,19 +1,15 @@
 package org.octopus.dashboard.service.job;
 
 import java.util.List;
-import java.util.Map;
 
-import org.octopus.dashboard.entity.Task;
-import org.octopus.dashboard.repository.TaskDao;
-import org.octopus.dashboard.shared.persistence.DynamicSpecifications;
-import org.octopus.dashboard.shared.persistence.SearchFilter;
-import org.octopus.dashboard.shared.persistence.SearchFilter.Operator;
+import org.apache.shiro.SecurityUtils;
+import org.octopus.dashboard.entity.Job;
+import org.octopus.dashboard.repository.JobDao;
+import org.octopus.dashboard.repository.ResumeDao;
+import org.octopus.dashboard.service.account.ShiroDbRealm.ShiroUser;
+import org.octopus.dashboard.shared.utils.clock.ClockFactory;
+import org.octopus.dashboard.shared.utils.clock.IClock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,52 +17,47 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class JobService {
 
-	private TaskDao taskDao;
+	private JobDao jobDao;
+	private ResumeDao resumeDao;
+	private IClock clock = ClockFactory.getClock();
 
-	public Task getTask(Long id) {
-		return taskDao.findOne(id);
+	public List<Job> getAllJob() {
+		return (List<Job>) jobDao.findAll();
 	}
 
-	public void saveTask(Task entity) {
-		taskDao.save(entity);
+	public Job getJob(Long id) {
+		return jobDao.findOne(id);
 	}
 
-	public void deleteTask(Long id) {
-		taskDao.delete(id);
+	public Job findJobByName(String name) {
+		return jobDao.findByName(name);
 	}
 
-	public List<Task> getAllTask() {
-		return (List<Task>) taskDao.findAll();
+	public void registerJob(Job Job) {
+
+		Job.setOpenBy(getCurrentUserName());
+		Job.setOpenTime(clock.getCurrentDate());
+
+		jobDao.save(Job);
 	}
 
-	public Page<Task> getUserTask(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize,
-			String sortType) {
-		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
-		Specification<Task> spec = buildSpecification(userId, searchParams);
-
-		return taskDao.findAll(spec, pageRequest);
+	private String getCurrentUserName() {
+		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+		return user.loginName;
 	}
 
-	private PageRequest buildPageRequest(int pageNumber, int pagzSize, String sortType) {
-		Sort sort = null;
-		if ("auto".equals(sortType)) {
-			sort = new Sort(Direction.DESC, "id");
-		} else if ("title".equals(sortType)) {
-			sort = new Sort(Direction.ASC, "title");
-		}
-
-		return new PageRequest(pageNumber - 1, pagzSize, sort);
+	public void updateJob(Job Job) {
+		jobDao.save(Job);
 	}
 
-	private Specification<Task> buildSpecification(Long userId, Map<String, Object> searchParams) {
-		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-		filters.put("user.id", new SearchFilter("user.id", Operator.EQ, userId));
-		Specification<Task> spec = DynamicSpecifications.bySearchFilter(filters.values(), Task.class);
-		return spec;
+	public void deleteJob(Long id) {
+		jobDao.delete(id);
+		resumeDao.deleteByJobId(id);
+
 	}
 
 	@Autowired
-	public void setTaskDao(TaskDao taskDao) {
-		this.taskDao = taskDao;
+	public void setJobDao(JobDao jobDao) {
+		this.jobDao = jobDao;
 	}
 }

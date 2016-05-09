@@ -1,18 +1,10 @@
 package org.octopus.dashboard.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.octopus.dashboard.entity.Job;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.octopus.dashboard.entity.Task;
 
-public interface JobDao extends PagingAndSortingRepository<Task, Long>, JpaSpecificationExecutor<Task> {
+public interface JobDao extends PagingAndSortingRepository<Job, Long> {
 
-	Page<Task> findByUserId(Long id, Pageable pageRequest);
+	Job findByName(String name);
 
-	@Modifying
-	@Query("delete from Task task where task.user.id=?1")
-	void deleteByUserId(Long id);
 }

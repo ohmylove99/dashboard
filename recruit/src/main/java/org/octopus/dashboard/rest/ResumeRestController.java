@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.validation.Validator;
 
-import org.octopus.dashboard.entity.Task;
-import org.octopus.dashboard.service.task.TaskService;
+import org.octopus.dashboard.entity.Resume;
+import org.octopus.dashboard.service.resume.ResumeService;
 import org.octopus.dashboard.shared.beanvalidator.BeanValidators;
 import org.octopus.dashboard.shared.constants.MediaTypes;
 import org.slf4j.Logger;
@@ -24,43 +24,42 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(value = "/api/v1/job")
-public class JobRestController {
+@RequestMapping(value = "/api/v1/resume")
+public class ResumeRestController {
 
-	private static Logger logger = LoggerFactory.getLogger(JobRestController.class);
+	private static Logger logger = LoggerFactory.getLogger(ResumeRestController.class);
 
 	@Autowired
-	private TaskService taskService;
+	private ResumeService resumeService;
 
 	@Autowired
 	private Validator validator;
 
 	@RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-	public List<Task> list() {
-		return taskService.getAllTask();
+	public List<Resume> list() {
+		return resumeService.getAllResume();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
-	public Task get(@PathVariable("id") Long id) {
-		Task task = taskService.getTask(id);
-		if (task == null) {
+	public Resume get(@PathVariable("id") Long id) {
+		Resume resume = resumeService.getResume(id);
+		if (resume == null) {
 			String message = "not found (id:" + id + ")";
 			logger.warn(message);
 			throw new RestException(HttpStatus.NOT_FOUND, message);
 		}
-		return task;
+		return resume;
 	}
 
-	
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
-	public ResponseEntity<?> create(@RequestBody Task task, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<?> create(@RequestBody Resume resume, UriComponentsBuilder uriBuilder) {
 
-		BeanValidators.validateWithException(validator, task);
+		BeanValidators.validateWithException(validator, resume);
 
-		taskService.saveTask(task);
+		resumeService.saveResume(resume);
 
-		Long id = task.getId();
-		URI uri = uriBuilder.path("/api/v1/task/" + id).build().toUri();
+		Long id = resume.getId();
+		URI uri = uriBuilder.path("/api/v1/resume/" + id).build().toUri();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(uri);
 
@@ -69,16 +68,16 @@ public class JobRestController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void update(@RequestBody Task task) {
+	public void update(@RequestBody Resume resume) {
 
-		BeanValidators.validateWithException(validator, task);
+		BeanValidators.validateWithException(validator, resume);
 
-		taskService.saveTask(task);
+		resumeService.saveResume(resume);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {
-		taskService.deleteTask(id);
+		resumeService.deleteResume(id);
 	}
 }

@@ -1,22 +1,32 @@
 package org.octopus.dashboard.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class JobPosition extends IdEntity {
+@Entity
+@Table(name = "ss_job")
+public class Job extends BaseIdAuditEntity {
 
-	private String name;
-	private String description;
-	private String grade;
-	private Date openTime;
-	private Date closedTime;
-	private String status;// opening/closed/
+	protected String name;
+	protected String description;
+	protected String grade;
+	protected Date openTime;
+	protected Date closedTime;
+	protected String openBy;
+	protected String closedBy;
+	
+	protected Long version;
+	public Long getVersion() {
+		return version;
+	}
 
-	private List<Recume> recumes = new ArrayList<Recume>();
-	private OrgTree org;
+	public void setVersion(Long version) {
+		this.version = version;
+	}
 
 	public String getName() {
 		return name;
@@ -58,24 +68,20 @@ public class JobPosition extends IdEntity {
 		this.closedTime = closedTime;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getOpenBy() {
+		return openBy;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setOpenBy(String openBy) {
+		this.openBy = openBy;
 	}
 
-	public List<Recume> getRecumes() {
-		return recumes;
+	public String getClosedBy() {
+		return closedBy;
 	}
 
-	public OrgTree getOrg() {
-		return org;
-	}
-
-	public void setOrg(OrgTree org) {
-		this.org = org;
+	public void setClosedBy(String closedBy) {
+		this.closedBy = closedBy;
 	}
 
 	@Override

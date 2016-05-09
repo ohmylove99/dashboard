@@ -29,7 +29,7 @@
 		<property name="packagesToScan" value="org.octopus.dashboard" />
 		<property name="jpaProperties">
 			<props>
-
+				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
 			</props>
 		</property>
@@ -150,8 +150,8 @@
 		<!-- -->
 		<jdbc:initialize-database data-source="dataSource"
 			ignore-failures="ALL">
-			<jdbc:script location="classpath:sql/h2/schema.sql" />
-			<jdbc:script location="classpath:data/h2/import-data.sql"
+			<jdbc:script location="classpath:sql/mysql/schema.sql" />
+			<jdbc:script location="classpath:data/mysql/import-data.sql"
 				encoding="UTF-8" />
 		</jdbc:initialize-database>
 	</beans>
