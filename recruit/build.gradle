@@ -39,6 +39,8 @@ dependencies {
     compile group: 'org.apache.shiro', name: 'shiro-spring', version:'1.2.3'
     compile group: 'org.apache.shiro', name: 'shiro-ehcache', version:'1.2.3'
     compile group: 'commons-codec', name: 'commons-codec', version:'1.9'
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version:'1.2.2'
+    compile group: 'org.apache.commons', name: 'commons-io', version:'1.3.2'
     compile group: 'org.hibernate', name: 'hibernate-validator', version:'5.0.3.Final'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.4.0'
     compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-jaxb-annotations', version:'2.4.0'

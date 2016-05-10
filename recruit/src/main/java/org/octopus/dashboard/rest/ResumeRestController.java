@@ -51,6 +51,7 @@ public class ResumeRestController {
 		return resume;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaTypes.JSON)
 	public ResponseEntity<?> create(@RequestBody Resume resume, UriComponentsBuilder uriBuilder) {
 

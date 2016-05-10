@@ -1,7 +1,5 @@
 package org.octopus.dashboard.entity;
 
-import java.sql.Blob;
-
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;

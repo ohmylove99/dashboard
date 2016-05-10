@@ -15,31 +15,13 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.octopus.dashboard.Constants;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-/**
- * <p>
- * StartupListener class used to initialize and database settings and populate
- * any application-wide drop-downs.
- * <p/>
- * <p>
- * Keep in mind that this listener is executed outside of
- * OpenSessionInViewFilter, so if you're using Hibernate you'll have to
- * explicitly initialize all loaded data at the GenericDao or service level to
- * avoid LazyInitializationException. Hibernate.initialize() works well for
- * doing this.
- *
- * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
- */
+@SuppressWarnings({ "unchecked", "unused" })
 public class StartupListener implements ServletContextListener {
 	private static final Log log = LogFactory.getLog(StartupListener.class);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
 	public void contextInitialized(ServletContextEvent event) {
 		log.debug("Initializing context...");
 
@@ -54,9 +36,6 @@ public class StartupListener implements ServletContextListener {
 		}
 
 		ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-
-		
-
 
 		setupContext(context);
 
@@ -97,10 +76,9 @@ public class StartupListener implements ServletContextListener {
 	 */
 	public static void setupContext(ServletContext context) {
 		ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-		
+
 	}
 
-	
 	/**
 	 * Shutdown servlet context (currently a no-op method).
 	 *
