@@ -4,14 +4,15 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Convenience class for setting and retrieving cookies.
  */
 public final class RequestUtil {
-	private static final Log log = LogFactory.getLog(RequestUtil.class);
+
+	private static Logger logger = LoggerFactory.getLogger(RequestUtil.class);
 
 	/**
 	 * Checkstyle rule: utility classes should not have public constructor
@@ -32,8 +33,8 @@ public final class RequestUtil {
 	 *            the path to set it on
 	 */
 	public static void setCookie(HttpServletResponse response, String name, String value, String path) {
-		if (log.isDebugEnabled()) {
-			log.debug("Setting cookie '" + name + "' on path '" + path + "'");
+		if (logger.isDebugEnabled()) {
+			logger.debug("Setting cookie '" + name + "' on path '" + path + "'");
 		}
 
 		Cookie cookie = new Cookie(name, value);

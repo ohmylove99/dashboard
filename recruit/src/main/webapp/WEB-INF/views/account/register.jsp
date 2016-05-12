@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<title>用户注册</title>
+<title>User Register</title>
 
 <script>
 	$(document).ready(function() {
@@ -30,7 +30,7 @@
 		class="form-horizontal">
 		<fieldset>
 			<legend>
-				<small>用户注册</small>
+				<small>User Register</small>
 			</legend>
 			<div class="control-group">
 				<label for="loginName" class="control-label">Username:</label>

@@ -12,18 +12,18 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.octopus.dashboard.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 @SuppressWarnings({ "unchecked", "unused" })
 public class StartupListener implements ServletContextListener {
-	private static final Log log = LogFactory.getLog(StartupListener.class);
+	private static Logger logger = LoggerFactory.getLogger(StartupListener.class);
 
 	public void contextInitialized(ServletContextEvent event) {
-		log.debug("Initializing context...");
+		logger.debug("Initializing context...");
 
 		ServletContext context = event.getServletContext();
 
@@ -44,7 +44,7 @@ public class StartupListener implements ServletContextListener {
 		try {
 			InputStream is = context.getResourceAsStream("/META-INF/MANIFEST.MF");
 			if (is == null) {
-				log.warn("META-INF/MANIFEST.MF not found.");
+				logger.warn("META-INF/MANIFEST.MF not found.");
 			} else {
 				Manifest mf = new Manifest();
 				mf.read(is);
@@ -52,7 +52,7 @@ public class StartupListener implements ServletContextListener {
 				appVersion = atts.getValue("Implementation-Version");
 			}
 		} catch (IOException e) {
-			log.error("I/O Exception reading manifest: " + e.getMessage());
+			logger.error("I/O Exception reading manifest: " + e.getMessage());
 		}
 
 		// If there was a build number defined in the war, then use it for
@@ -63,7 +63,7 @@ public class StartupListener implements ServletContextListener {
 			appVersion = "" + new Random().nextInt(100000);
 		}
 
-		log.info("Application version set to: " + appVersion);
+		logger.info("Application version set to: " + appVersion);
 		context.setAttribute(Constants.ASSETS_VERSION, appVersion);
 	}
 

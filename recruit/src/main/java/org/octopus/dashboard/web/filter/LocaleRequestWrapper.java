@@ -1,21 +1,23 @@
 package org.octopus.dashboard.web.filter;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+
+import org.octopus.dashboard.shared.mapper.JsonMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * HttpRequestWrapper overriding methods getLocale(), getLocales() to include
  * the user's preferred locale.
  */
 public class LocaleRequestWrapper extends HttpServletRequestWrapper {
-	private final transient Log log = LogFactory.getLog(LocaleRequestWrapper.class);
+	private static Logger logger = LoggerFactory.getLogger(JsonMapper.class);
 	private final Locale preferredLocale;
 
 	/**
@@ -30,7 +32,7 @@ public class LocaleRequestWrapper extends HttpServletRequestWrapper {
 		super(decorated);
 		preferredLocale = userLocale;
 		if (null == preferredLocale) {
-			log.error("preferred locale = null, it is an unexpected value!");
+			logger.error("preferred locale = null, it is an unexpected value!");
 		}
 	}
 

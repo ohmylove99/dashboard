@@ -11,9 +11,10 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.octopus.dashboard.Constants;
+import org.octopus.dashboard.shared.web.utils.RequestUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
@@ -27,15 +28,15 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class BaseFormController implements ServletContextAware {
-	public static final String MESSAGES_KEY = "successMessages";
-	public static final String ERRORS_MESSAGES_KEY = "errors";
-	protected final transient Log log = LogFactory.getLog(getClass());
+	private MessageSourceAccessor messages;
+	private ServletContext servletContext;
 
+	protected final transient static Logger logger = LoggerFactory.getLogger(RequestUtil.class);
 	protected String cancelView;
 	protected String successView;
 
-	private MessageSourceAccessor messages;
-	private ServletContext servletContext;
+	public static final String MESSAGES_KEY = "successMessages";
+	public static final String ERRORS_MESSAGES_KEY = "errors";
 
 	@Autowired(required = false)
 	protected Validator validator;

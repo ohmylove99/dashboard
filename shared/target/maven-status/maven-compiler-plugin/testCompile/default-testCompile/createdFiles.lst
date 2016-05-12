@@ -1,0 +1,6 @@
+org\octopus\dashboard\recurit\shared\beanvalidator\BeanValidatorsTest$Customer.class
+org\octopus\dashboard\recurit\shared\beanvalidator\BeanValidatorsTest.class
+org\octopus\dashboard\recurit\shared\test\spring\Profiles.class
+org\octopus\dashboard\recurit\shared\test\spring\SpringTransactionalTestCase.class
+org\octopus\dashboard\recurit\shared\test\spring\SpringContextTestCase.class
+org\octopus\dashboard\recurit\shared\beanvalidator\BeanValidatorsTest$1.class

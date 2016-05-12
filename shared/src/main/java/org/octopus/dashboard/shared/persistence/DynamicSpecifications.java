@@ -15,11 +15,13 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.google.common.collect.Lists;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class DynamicSpecifications {
 
 	public static <T> Specification<T> bySearchFilter(final Collection<SearchFilter> filters,
 			final Class<T> entityClazz) {
 		return new Specification<T>() {
+
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				if (CollectionUtils.isNotEmpty(filters)) {
